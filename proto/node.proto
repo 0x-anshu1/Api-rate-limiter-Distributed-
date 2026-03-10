@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ratelimit;
+
+message LimitState {
+    string client_id = 1;
+    int64 tokens = 2;
+    int64 last_refill_timestamp = 3;
+    int64 capacity = 4;
+    double refill_rate = 5;
+}
+
+message LimitRequest {
+    string client_id = 1;
+    int64 tokens_requested = 2;
+    int64 timestamp = 3;
+}
+
+message LimitResponse {
+    bool allowed = 1;
+    int64 remaining_tokens = 2;
+    int64 retry_after_ms = 3;
+    string node_id = 4;
+}
+
+message SyncState {
+    string client_id = 1;
+    int64 tokens = 2;
+    int64 last_refill_timestamp = 3;
+    string source_node_id = 4;
+}
