@@ -29,7 +29,7 @@ void HashRing::remove_node(const std::string& node) {
     }
 }
 
-std::string HashRing::get_node(const std::string& key) {
+std::string HashRing::get_node(const std::string& key) const {
 
     if(ring.empty())
         return "";

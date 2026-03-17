@@ -23,7 +23,7 @@ public:
 
     void remove_node(const std::string& node);
 
-    std::string get_node(const std::string& key);
+    std::string get_node(const std::string& key) const;
 
 };
 

@@ -1,4 +1,5 @@
 #include <sstream>
+
 #include "limiter_manager.h"
 
 using namespace manager;
@@ -14,7 +15,7 @@ bool limit_manager::allow(const std::string& cli_id){
     if(it == m_Bucket.end()){
         it = m_Bucket.emplace(
             cli_id,
-            rate_limiter(m_capacity, m_refill_rate)
+            limit::TokenBucket(m_capacity, m_refill_rate)
         ).first;
     }
 
@@ -46,11 +47,11 @@ std::string limit_manager::get_metrics(){
         first = false;
 
         const std::string& client = p.first;
-        rate_limiter& limiter = p.second;
+        limit::TokenBucket& limiter = p.second;
 
         ss << "    {\n";
         ss << "      \"client_id\": \"" << client << "\",\n";
-        ss << "      \"tokens\": " << limiter.getter_token() << ",\n";
+        ss << "      \"tokens\": " << limiter.tokens() << ",\n";
         ss << "      \"allowed\": " << m_stats[client].allowed << ",\n";
         ss << "      \"blocked\": " << m_stats[client].blocked << "\n";
         ss << "    }";
